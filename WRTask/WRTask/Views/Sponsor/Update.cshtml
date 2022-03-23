@@ -1,0 +1,39 @@
+﻿@model WRTask.Models.Sponsor
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h1>Update</h1>
+<h2>@Model.Name</h2>
+<h4>Sponsor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.TextBoxFor(s=>s.Code,"",new{@class= "form-control", hidden=true})
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+               @Html.TextBoxFor(s => s.Name,"",new{@class= "form-control"})
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.CheckBoxFor(s=>s.Authorized,new {@class = "ml-1 form-check-input"})
+                <label asp-for="Authorized" class="ml-4 form-check-label"></label>
+                <span asp-validation-for="Authorized" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

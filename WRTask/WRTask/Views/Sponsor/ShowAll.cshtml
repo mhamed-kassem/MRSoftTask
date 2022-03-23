@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WRTask.Models.Sponsor>
+
+@{
+    Layout = null;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+             <th>
+                @Html.DisplayFor(modelItem => item.Code)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a class="btn btn-warning" href="~/sponsor/update/@item.Code">Edit</a> |
+                <a class="btn btn-primary" asp-action="Details" asp-route-Code="@item.Code">Details</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-Code="@item.Code">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

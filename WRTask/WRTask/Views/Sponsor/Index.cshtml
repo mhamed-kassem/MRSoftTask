@@ -1,0 +1,94 @@
+﻿  
+@{
+    
+    ViewBag.Title = "Sponsors";
+}
+
+@if(TempData["Message"] != null )
+{
+<div class="alert-danger btn btn-block bg-warning">
+    <span class="close" onclick="this.parentElement.style.display='none';"> &times;</span>
+    <p> @TempData["Message"] </p>
+</div>
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+
+<br />
+<hr />
+<a class="btn btn-primary" asp-action="PrintToPDF">Print to PDF</a>
+<a class="btn btn-primary" asp-action="PrintToExel">Print to Exel</a>
+<br /><br />
+<div id="SearchBox" class="row g-3">
+    <div class="col-auto">
+        <input type="search" class="form-control rounded" placeholder="By Code" id="CodeSearch" onsearch="SearchByCode(this.value)" />
+    </div>
+    <div class="col-auto">
+        <input type="search" class="form-control rounded" placeholder="By Name" id="NameSearch" onsearch="SearchByName(this.value)" />
+    </div>
+    <div class="col-auto">
+        <input type="button" class="form-control btn btn-success rounded" value="Show All" onclick="ReloadAll()" />
+    </div>
+</div>
+
+<hr />
+
+<div id="ShowSponsors">
+     
+</div>
+
+<script>
+        async function SearchByCode(Code) {
+            
+                var mydata = await GetRequest("Sponsor/CodeSearch/?Code="+Code);
+
+                if (mydata != undefined&& mydata != "No Results") {
+                    document.getElementById("ShowSponsors").innerHTML = mydata;
+                }else if(mydata == "No Results"){
+                    alert("Your search did not match any.");
+                }
+                
+
+            }
+    
+        async function SearchByName(Name) {
+            
+            var mydata = await GetRequest("Sponsor/NameSearch/?Name="+Name);
+
+            if (mydata != undefined&& mydata != "No Results") {
+                document.getElementById("ShowSponsors").innerHTML = mydata;
+            }else if(mydata == "No Results"){
+                alert("Your search did not match any.");
+            }
+
+        }
+
+        async function ReloadAll() 
+        {
+            var mydata = await GetRequest("Sponsor/ShowAll");
+             console.log(mydata);
+            if (mydata != undefined) {
+                 console.log("success");
+                document.getElementById("ShowSponsors").innerHTML = mydata;
+            }
+
+        }
+        ReloadAll();    
+
+        async function GetRequest(url) {
+
+                try {
+                    var response = await fetch(url);
+                    var result = await response.text();
+                    return result;
+
+                } catch (error) {
+                    console.log(error);
+                    console.log("error");
+                }
+
+            }
+
+</script>
